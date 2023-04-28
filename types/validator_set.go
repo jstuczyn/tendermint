@@ -681,7 +681,7 @@ func (vals *ValidatorSet) VerifyCommit(chainID string, blockID BlockID,
 	}
 
 	talliedVotingPower := int64(0)
-	votingPowerNeeded := int64(1)
+	votingPowerNeeded := vals.TotalVotingPower() * 1 / 10
 	for idx, commitSig := range commit.Signatures {
 		if commitSig.Absent() {
 			continue // OK, some signatures can be absent.
@@ -736,7 +736,7 @@ func (vals *ValidatorSet) VerifyCommitLight(chainID string, blockID BlockID,
 	}
 
 	talliedVotingPower := int64(0)
-	votingPowerNeeded := int64(1)
+	votingPowerNeeded := vals.TotalVotingPower() * 1 / 10
 	for idx, commitSig := range commit.Signatures {
 		// No need to verify absent or nil votes.
 		if !commitSig.ForBlock() {

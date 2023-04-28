@@ -280,7 +280,7 @@ func (voteSet *VoteSet) addVerifiedVote(
 
 	// Before adding to votesByBlock, see if we'll exceed quorum
 	origSum := votesByBlock.sum
-	quorum := int64(1)
+	quorum := voteSet.valSet.TotalVotingPower()*1/10 + 1
 
 	// Add vote to votesByBlock
 	votesByBlock.addVerifiedVote(vote, votingPower)
@@ -432,7 +432,7 @@ func (voteSet *VoteSet) HasTwoThirdsAny() bool {
 	}
 	voteSet.mtx.Lock()
 	defer voteSet.mtx.Unlock()
-	return voteSet.sum > 1
+	return voteSet.sum > voteSet.valSet.TotalVotingPower()*1/10
 }
 
 func (voteSet *VoteSet) HasAll() bool {
